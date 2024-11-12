@@ -10,7 +10,7 @@ local TopLevelMode = {
 }
 minify_js.TopLevelMode = TopLevelMode
 
-export type minify_js = minify_js_pub | minify_js_private
+export type minify_js = minify_js_pub & minify_js_private
 export type minify_js_pub = {
     minify: (self: minify_js, code: string, toplevel: number?) -> string,
     drop: (self: minify_js) -> (),
