@@ -32,7 +32,7 @@ local minify_result_t = ffi.c.struct({
 	-- len
 	ffi.i32,
 	-- ptr
-	ffi.c.char:ptr(),
+	ffi.u8:ptr(),
 	-- err
 	ffi.u8,
 })
@@ -68,7 +68,7 @@ function minify_js.new(lib_path: string): minify_js
 	self:_create_session()
 	self:_create_top_level_mode()
 	self._minify = ffi.c
-		.fn({ session_t, ffi.c.void:ptr(), ffi.c.char:ptr(), ffi.i32 }, minify_result_t)
+		.fn({ session_t, ffi.c.void:ptr(), ffi.u8:ptr(), ffi.i32 }, minify_result_t)
 		:callable(self._lib:find("minify"))
 	self._drop_session = ffi.c.fn({ session_t }, ffi.c.void):callable(self._lib:find("drop_session"))
 	return self
