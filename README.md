@@ -4,6 +4,8 @@ Simple [minify-js](https://github.com/wilsonzlin/minify-js) wrapper for lune run
 
 ## Example usage
 
+Run `cargo build --profile=release` first to get shared object.
+
 ```luau
 local minify_js = require("./minify-js")
     .new("./minify-js/target/release/liblune_minify_js.so")
