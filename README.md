@@ -19,4 +19,6 @@ local result = minify_js:minify([[
 ]], minify_js.TopLevelMode.Global)
 
 print(result) -- return ((a,b)=>a+ b)
+
+minify_js:drop() -- Drop library datas
 ```
