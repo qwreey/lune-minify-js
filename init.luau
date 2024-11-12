@@ -12,7 +12,7 @@ minify_js.TopLevelMode = TopLevelMode
 
 export type minify_js = minify_js_pub | minify_js_private
 export type minify_js_pub = {
-    minify: (self: minify_js, code: string) -> string,
+    minify: (self: minify_js, code: string, toplevel: number?) -> string,
     drop: (self: minify_js) -> (),
     TopLevelMode: typeof(TopLevelMode)
 }
@@ -72,7 +72,7 @@ function minify_js.new(lib_path: string): minify_js
     return self
 end
 
-function minify_js:minify(code: string, toplevel: number): string
+function minify_js:minify(code: string, toplevel: number?): string
     local source = ffi.box(#code):writeString(code)
     local result = ffi.box(minify_result_t.size)
     self._minify(result, self._session_ptr, ffi.i32:box(#code):ref(), source:ref():ref(), self._top_level_mode_map[toplevel or 1])
@@ -93,11 +93,5 @@ function minify_js:drop()
     self._drop_session = nil
     self._minify = nil
 end
-
-function minify_js._test()
-    local lib = minify_js.new("./target/release/liblune_minify_js.so")
-    print(lib:minify("return function () { return 'test' }"))
-end
-minify_js._test()
 
 return minify_js :: { new: (libpath: string) -> minify_js_pub }
