@@ -39,9 +39,9 @@ pub unsafe extern "C" fn export_top_level_mode(list: *mut TopLevelMode) {
 #[no_mangle]
 pub unsafe extern "C" fn minify(
     session: *mut ManuallyDrop<Session>,
-    len: i32,
-    ptr: *mut u8,
     toplevel: *mut TopLevelMode,
+    ptr: *mut u8,
+    len: i32,
 ) -> MinifyResult {
     let mut out = Vec::new();
     let src = slice::from_raw_parts(ptr, len as usize);

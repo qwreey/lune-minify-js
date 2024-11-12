@@ -68,7 +68,7 @@ function minify_js.new(lib_path: string): minify_js
 	self:_create_session()
 	self:_create_top_level_mode()
 	self._minify = ffi.c
-		.fn({ session_t, ffi.i32, ffi.c.char:ptr(), ffi.c.void:ptr() }, minify_result_t)
+		.fn({ session_t, ffi.c.void:ptr(), ffi.c.char:ptr(), ffi.i32 }, minify_result_t)
 		:callable(self._lib:find("minify"))
 	self._drop_session = ffi.c.fn({ session_t }, ffi.c.void):callable(self._lib:find("drop_session"))
 	return self
@@ -80,9 +80,9 @@ function minify_js:minify(code: string, toplevel: number?): string
 	self._minify(
 		result,
 		self._session_ptr,
-		ffi.i32:box(#code):ref(),
+		self._top_level_mode_map[toplevel or 1],
 		source:ref():ref(),
-		self._top_level_mode_map[toplevel or 1]
+		ffi.i32:box(#code):ref()
 	)
 	local result_table = minify_result_t:readData(result)
 	local result_string = result_table[2]:readString(result_table[1])
